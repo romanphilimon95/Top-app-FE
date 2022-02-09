@@ -1,67 +1,89 @@
 import { useContext } from 'react';
-import { P } from '../../components/P/P';
-import styles from './Menu.module.css';
-import { format } from 'date-fns';
+// next
+import DefaultErrorPage from 'next/error'
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+// types and interfaces
+import { 
+    firstLevelMenuItemInterface, 
+    MenuItemInterface, 
+    PageItemInterface 
+} from '../../interfaces/menu.interface';
+// other 
 import { AppContext } from '../../context/app.context';
-import { firstLevelMenuItemInterface, PageItemInterface } from '../../interfaces/menu.interface';
+import { firstLevelMenu } from '../../helpers/helpers';
+import styles from './Menu.module.css';
 import cn from 'classnames';
-// svg-icons
-import CoursesIcon from './icons/courses.svg';
-import BooksIcon from './icons/books.svg';
-import ProductsIcon from './icons/product.svg';
-import ServicesIcon from './icons/services.svg';
-import { TopLevelCategory } from '../../interfaces/page.interface';
-
-
-const firstLevelMenu: firstLevelMenuItemInterface[] = [
-    { route: 'courses', name: 'Курсы', icon: <CoursesIcon/>, id: TopLevelCategory.Courses},
-    { route: 'books', name: 'Книги', icon: <BooksIcon/>, id: TopLevelCategory.Books},
-    { route: 'products', name: 'Продукты', icon: <ProductsIcon/>, id: TopLevelCategory.Products},
-    { route: 'services', name: 'Сервисы', icon: <ServicesIcon/>, id: TopLevelCategory.Services}
-];
 
 export const Menu = (): JSX.Element => {
-    const { menu, setMenu, firstCategory} = useContext(AppContext)
+    const context = useContext(AppContext);
+    const { menu, setMenu, firstCategory } = context;
+    const router = useRouter();
+
+    const openSecondLevel = (secondCategory: string) => {
+        setMenu && setMenu(menu.map(m => {
+            if (m._id.secondCategory === secondCategory) {
+                m.isOpened = !m.isOpened;
+            }
+
+            return m;
+        }));
+    };
+
+    const isThisSecondLevelOpened = (level: MenuItemInterface): void => {
+        if (level.pages.map(path => path.alias).includes(router.asPath.split('/')[2])) {
+            level.isOpened = true;
+        }
+    };
 
     const buildFirstLevel = () => {
         return (
             <>
                 {firstLevelMenu.map(m => (
                     <div key={m.route}>
-                        <a href={`/${m.route}`}>
-                            <div 
-                                className={cn(styles.firstLevel, {
-                                    [styles.firstLevelActive]: m.id === firstCategory,
-                                })}
-                            >
-                                {m.icon}
-                                <span>
-                                    {m.name}
-                                </span>
-                            </div>
-                        </a>
+                        <Link href={`/${m.route}`}>
+                            <a>
+                                <div
+                                    className={cn(styles.firstLevel, {
+                                        [styles.firstLevelActive]: m.id === firstCategory,
+                                    })}
+                                >
+                                    {m.icon}
+                                    <span>
+                                        {m.name}
+                                    </span>
+                                </div>
+                            </a>
+                        </Link>
                         {m.id === firstCategory && buildSecondLevel(m)}
                     </div>
                 ))}
             </>
-        )
+        );
     };
 
     const buildSecondLevel = (menuItem: firstLevelMenuItemInterface) => {
         return (
             <div className={styles.secondBlock}>
-                {menu.map(m => (
-                    <div key={m._id.secondCategory}>
-                        <div className={styles.secondLevel}>
-                            {m._id.secondCategory}
+                {menu && menu.map(m => {
+                    isThisSecondLevelOpened(m);
+
+                    return (
+                        <div key={m._id.secondCategory}>
+                            <div
+                                className={styles.secondLevel}
+                                onClick={() => openSecondLevel(m._id.secondCategory)}
+                            >
+                                {m._id.secondCategory}
+                            </div>
+                            <div className={cn(styles.secondLevelBlock, {
+                                [styles.secondLevelBlockOpened]: m.isOpened,
+                            })}>
+                                {buildThirdLevel(m.pages, menuItem.route)}
+                            </div>
                         </div>
-                        <div className={cn(styles.secondLevelBlock, {
-                            [styles.secondLevelBlockOpened]: m.isOpened
-                        })}>
-                        </div>
-                        {buildThirdLevel(m.pages, menuItem.route)}
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         );
     };
@@ -69,17 +91,17 @@ export const Menu = (): JSX.Element => {
     const buildThirdLevel = (pages: PageItemInterface[], route: string) => {
         return (
             pages.map(p => (
-                <a  
-                    key={p._id}
-                    href={`/${route}/${p.alias}`}
-                    className={cn(styles.thirdLevel, {
-                        [styles.thirdLevelActive]: false,
-                    })}
-                >
-                    {p.category}
-                </a>
+                <Link href={`/${route}/${p.alias}`} key={p._id}>
+                    <a
+                        className={cn(styles.thirdLevel, {
+                            [styles.thirdLevelActive]: `/${route}/${p.alias}` === router.asPath,
+                        })}
+                    >
+                        {p.category}
+                    </a>
+                </Link>
             ))
-        )
+        );
     };
 
     return (

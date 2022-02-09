@@ -17,9 +17,9 @@ export const AppContextProvider = ({ menu, firstCategory, children }: PropsWithC
     const [menuState, setMenuState] = useState<MenuItemInterface[]>(menu);
     const setMenu = (newMenu: MenuItemInterface[]) => {
         setMenuState(newMenu);
-    }
+    };
 
     return <AppContext.Provider value={ { menu: menuState, firstCategory, setMenu } }>
         { children }
     </AppContext.Provider>;
-}
+};

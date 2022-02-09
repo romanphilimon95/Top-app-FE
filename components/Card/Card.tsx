@@ -1,0 +1,20 @@
+import { CardPropsInterface } from "./Card.props";
+import styles from './Card.module.css';
+import cn from 'classnames';
+
+export const Card = ({
+    color = 'white', 
+    className, 
+    children, 
+    ...props
+}: CardPropsInterface): JSX.Element => {
+    return (
+        <div className={cn(styles.card, className, {
+                [styles.blue]: color === 'blue',
+            })} 
+            {...props}
+        >
+            {children}
+        </div>
+    );
+}; 

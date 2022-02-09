@@ -1,3 +1,4 @@
+import { AppContextProvider } from '../context/app.context';
 // types and interfaces
 import { FunctionComponent } from 'react';
 import { LayoutPropsInterface } from './Layout.props';
@@ -26,11 +27,11 @@ const Layout = ({ children }: LayoutPropsInterface): JSX.Element => {
 export const withLayout = <T extends Record<string, unknown> & AppContextInterface>(Component: FunctionComponent<T>) => {
     return function withLayoutComponent(props: T): JSX.Element {
         return (
-            <AppContext.Provider value={{menu: props.menu, firstCategory: props.firstCategory}}>
+            <AppContextProvider menu={props.menu} firstCategory={props.firstCategory}>
                 <Layout>
                     <Component {...props} />
                 </Layout>
-            </AppContext.Provider>
+            </AppContextProvider>
         )
     }
 }
