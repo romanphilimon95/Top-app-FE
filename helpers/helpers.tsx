@@ -13,3 +13,10 @@ export const firstLevelMenu: firstLevelMenuItemInterface[] = [
     { route: 'products', name: 'Продукты', icon: <ProductsIcon />, id: TopLevelCategory.Products },
     { route: 'services', name: 'Сервисы', icon: <ServicesIcon />, id: TopLevelCategory.Services }
 ];
+
+export const getPriceInRoubles = (price: number): string => {
+    return price
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!(\d)))/g, ' ')
+        .concat(' ₽');
+};

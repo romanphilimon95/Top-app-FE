@@ -33,7 +33,7 @@
 	justify-self: flex-start;
 }
 
-@media (max-width: 765px) {
+@media (max-width: 785px) {
 	.wrapper {
 		grid-template-columns: minmax(320px, 1fr);
 		grid-template-areas:
@@ -52,5 +52,9 @@
 
 	.header {
 		display: block;
+	}
+
+	.body {
+		padding: 15px;
 	}
 }

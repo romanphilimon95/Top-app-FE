@@ -4,12 +4,14 @@ import { HTag } from "../components/HTag/Htag";
 import { Tag } from "../components/Tag/Tag";
 import { Rating } from "../components/Rating/Rating";
 import { P } from "../components/P/P";
+import { Input } from "../components/Input/Input";
 // HOC
 import { withLayout } from "../layout/Layout";
 import { GetStaticProps } from "next";
 // other
 import axios from 'axios';
 import { MenuItemInterface } from "../interfaces/menu.interface";
+import { TextArea } from "../components/TextArea/TextArea";
 
  function Home({ menu /*, firstCategory*/}: HomePropsInterface): JSX.Element {
   return (
@@ -25,6 +27,8 @@ import { MenuItemInterface } from "../interfaces/menu.interface";
       <Tag color="green" size="m">google medium</Tag>
       <Tag color="ghost" size="m">google medium</Tag>
       <Rating rating={4} />
+      <Input placeholder="sdfsdf"/>
+      <TextArea placeholder="sdfsdfsdfsdfsdfsdfsdf"/>
     </>
   );
 }

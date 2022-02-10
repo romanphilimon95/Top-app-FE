@@ -1,0 +1,30 @@
+.title {
+	display: grid;
+	grid-template-columns: 50px 1fr;
+
+	align-items: center;
+	gap: 40px;
+}
+
+.deltaIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 50px;
+	height: 50px;
+
+	border-radius: 50%;
+	background: var(--green-light);
+}
+
+.deltaIcon svg {
+	fill: var(--green);
+}
+
+.description {
+	margin: 17px 0 28px 25px;
+	padding-left: 68px;
+
+	border-left: 1px solid #D2D2D2;
+}

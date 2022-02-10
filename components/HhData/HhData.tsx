@@ -2,6 +2,7 @@ import { HhDataPropsInterface } from "./HhData.props";
 import styles from './HhData.module.css';
 import { Card } from "../Card/Card";
 import RateIcon from './rate.svg';
+import { getPriceInRoubles } from "../../helpers/helpers";
 
 export const HhData = ({ 
     juniorSalary, 
@@ -25,7 +26,7 @@ export const HhData = ({
                         Начальный
                     </div>
                     <div className={styles.salaryValue}>
-                        {juniorSalary}
+                        {juniorSalary && getPriceInRoubles(juniorSalary)}
                     </div>
                     <div className={styles.rate}>
                         <RateIcon className={styles.filled} />
@@ -38,7 +39,7 @@ export const HhData = ({
                         Средний
                     </div>
                     <div className={styles.salaryValue}>
-                        {middleSalary}
+                        {middleSalary && getPriceInRoubles(middleSalary)}
                     </div>
                     <div className={styles.rate}>
                         <RateIcon className={styles.filled} />
@@ -51,7 +52,7 @@ export const HhData = ({
                         Профессионал
                     </div>
                     <div className={styles.salaryValue}>
-                        {seniorSalary}
+                        {seniorSalary && getPriceInRoubles(seniorSalary)}
                     </div>
                     <div className={styles.rate}>
                         <RateIcon className={styles.filled} />
