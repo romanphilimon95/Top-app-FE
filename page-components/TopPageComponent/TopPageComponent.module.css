@@ -7,7 +7,7 @@
 	display: grid;
 	grid-template-columns: auto 1fr auto;
 
-	align-items: baseline;
+	align-items: center;
 	justify-items: left;
 	gap: 20px;
 }
@@ -48,4 +48,8 @@
 	font-size: 20px;
 	font-weight: 600;
 	line-height: 27px;
+}
+
+.products {
+	margin-top: 21px;
 }

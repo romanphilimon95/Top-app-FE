@@ -2,6 +2,7 @@ export * from './AllAdvantages/AllAdvantages';
 export * from './Advantage/Advantage';
 export * from './TextArea/TextArea';
 export * from './Product/Product';
+export * from './Divider/Divider';
 export * from './Search/Search';
 export * from './Rating/Rating';
 export * from './Button/Button';

@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 // components
 import { AllAdvantages } from "../../components/AllAdvantages/AllAdvantages";
 import { Product } from "../../components/Product/Product";
@@ -21,10 +21,16 @@ export const TopPageComponent = ({
     page,
 }: TopPageComponentPropsInterface): JSX.Element => {
     const [{ products: sortedProducts, sort }, dispatchSort] = useReducer(sortReducer, { products, sort: SortEnum.Rating });
-
     const setSort = (sort: SortEnum): void => {
         dispatchSort({ type: sort });
     };
+
+    useEffect(() => {
+		dispatchSort({ type: 'reset', initialState: products });
+	}, [products]);
+
+    console.log(page);
+    console.log(products);
 
     return (
         <div className={styles.wrapper}>
@@ -40,11 +46,13 @@ export const TopPageComponent = ({
                 }
                 <Sort sort={sort} setSort={setSort} />
             </div>
-            <div>
-                {sortedProducts
+            <div className={styles.products}>
+                {   
+                    sortedProducts
                     && sortedProducts.map(product => (
                         <Product product={product} key={product._id} />
-                    ))}
+                    ))
+                }
             </div>
             <div className={styles.hhTitle}>
                 <HTag tag="h2">
